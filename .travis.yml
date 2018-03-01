@@ -1,0 +1,31 @@
+sudo: required
+dist: trusty
+env:
+  global:
+    secure: "OtYintFXUdEHJk8xG13xTHCUVI6k3LQVN9vv1Dp0tOfOiIotCufSSm57GSJYJshRzcxyyg9nDd1deOaSQmgvuZpwbylZ7STEDyTj+BHMRJkFfzm3UMmRr79y+3A3D413pkso+ylMMEHUt2l8Cv0C73Qyz5jaENZfga6B86ZvCjKqXczRsS/J9Uy0I1x1B9nj1X89iDscXXg0Ju6rUevG9H5wotlwdDudBGYZd79nEnNS0WrHvYbzcvHQMNnjdO5JP/XEJN7WcC1wPTeKfpF66dhyFU3pbtJ/QD7zd+5coWBEcr+nGhPt/kPXP6CPhrRBJQmtkt6i3P1k+8rNIOCS/oYgEx2fjYTvH8EuDgpkiL8HbgDciSl0ze/vzW4KLbRdavAyzibaJOdu5ifQbjOy0uM5oGxLzG/eTLZvUbdpx4Dd1f542QSy80lgRYyfCKVc2P3KIyDgXNZuoIhDhbPQ+7lk1/WLbpv6SIFfgVCr2my8Mb3w/wbZ5DMEhQfJ4ctafF5EyYgQ4jdKtDV6dd9WkS6V2du6suibx0L917xF4LYO/3C8QxNhZ0iCjrICuX/z5JP5X1cJ6QDEvSZwLvberMMWlFF3t9q9J2X/aBebUYIGMQ8XASqottXi4YEwY8HdN9rYJ6ePeDAOBOzAWbyIKzF0GpmB/mfear91CrUqsU0="
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y --no-install-recommends texlive-xetex texlive-fonts-recommended lmodern texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended latex-xcolor texlive-bibtex-extra 
+
+script:
+  - sed -i env.tex -e "s/TRAVISCOMMITHASH/${TRAVIS_COMMIT:0:6}/g"
+  - sed -i env.tex -e "s/TRAVISBUILDNUMBER/${TRAVIS_BUILD_ID}/g"
+
+  - make
+  - cp JoakimOlssonCV.pdf deploy/JoakimOlssonCV.pdf
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    local_dir: deploy/
+    github_token: "$GITHUB_TOKEN"
+    on:
+      branch: master
+    email: jmrolsson@gmail.com
+    name: Joakim Olsson
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
