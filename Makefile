@@ -3,6 +3,7 @@ SOURCES=$(wildcard ./resume.cls ./*.bib ./env.tex)
 all: JoakimOlssonCV.pdf
 
 %.pdf: %.tex $(SOURCES)
+				echo xelatex -interaction=nonstopmode -halt-on-error $(basename $@)
 				xelatex -interaction=nonstopmode -halt-on-error $(basename $@)
 				bibtex papers
 				bibtex talks
