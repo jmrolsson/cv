@@ -166,6 +166,15 @@ anchorcolor = MidnightBlue]{hyperref}
 %	WORK EXPERIENCE FORMATTING
 %----------------------------------------------------------------------------------------
 
+\newenvironment{rlist}{%
+  \smallskip
+  \begin{list}{$\bullet$}{\leftmargin=1em} %{$\cdot$}{\leftmargin=0em} % \cdot used for bullets, no indentation
+   \itemsep -0.5em \vspace{-0.5em} % Compress items in list together for aesthetics
+  }{
+  \end{list}
+  \vspace{0.5em} % Some space after the list of bullet points
+}
+
 \newenvironment{rsubsection}[4]{ % 4 input arguments - company name, location, job title, year(s) employed
  {\bf #1} % Bold company name and location on the right
  \ifthenelse{\equal{#3}{}}{\hfill {\em #2}}{ % If the third argument is not specified, print the second argument in italic (e.g. date) 
